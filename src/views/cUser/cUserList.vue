@@ -99,7 +99,7 @@
     name: 'cUserList',
     data () {
       return {
-        tableData: [],
+        tableData: [               ],
         formInline: {
           key_a: '',
           key_time: []
