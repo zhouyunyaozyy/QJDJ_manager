@@ -28,7 +28,12 @@
     style="width: 100%" border>
       <el-table-column
         prop="updateTime"
-        label="下单时间"
+        label="订单编号"
+        min-width="120" align='center'>
+      </el-table-column>
+      <el-table-column
+        prop="updateTime"
+        label="网店名"
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
@@ -52,13 +57,13 @@
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
-        prop="productInfo"
-        label="所有商品信息"
+        prop="productSize"
+        label="佣金"
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
-        prop="logisticsNumber"
-        label="物流单号"
+        prop="productSize"
+        label="派单记录"
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
@@ -67,17 +72,17 @@
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
-        prop="productPics"
-        label="商品图片"
-        min-width="120" align='center'>
-        <template slot-scope="scope">
-          <img :src="scope.row.productPics" width="50px" height="50px">
-        </template>
-      </el-table-column>
-      <el-table-column
         prop="stateVal"
         label="订单状态"
         min-width="120" align='center'>
+      </el-table-column>
+      <el-table-column
+        prop="stateVal"
+        label="操作"
+        min-width="120" align='center'>
+        <el-button>派单</el-button>
+        <el-button>关闭</el-button>
+        <el-button>查看</el-button>
       </el-table-column>
     </el-table>
     <el-pagination
