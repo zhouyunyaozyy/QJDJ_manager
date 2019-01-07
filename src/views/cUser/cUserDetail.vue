@@ -1,14 +1,14 @@
 <template>
   <div class="adminDetail">
     <el-form ref="form" :model="form" label-width="80px" :rules='rules'>
-      <el-form-item label="用户名" prop='username'>
-        <el-input v-model="form.username"></el-input>
+      <el-form-item label="用户名" prop='account'>
+        <el-input v-model="form.account"></el-input>
       </el-form-item>
-      <el-form-item label="企业名称" prop='username'>
-        <el-input v-model="form.username"></el-input>
+      <el-form-item label="企业名称" prop='companyName'>
+        <el-input v-model="form.companyName"></el-input>
       </el-form-item>
-      <el-form-item label="手机号" prop='username'>
-        <el-input v-model="form.username"></el-input>
+      <el-form-item label="手机号" prop='phone'>
+        <el-input v-model="form.phone"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
@@ -21,27 +21,28 @@
     data () {
       return {
         form: {
-          gid: '',
-          username: '',
-          pwd: ''
+          account: '',
+          companyName: '',
+          phone: ''
         },
         rules: {
-          username: [{ required: true, message: '请填写名称', trigger: 'blur' },{validator: this.checkUsername, trigger: 'blur'}],
-          pwd: [{ required: true, message: '请填写密码', trigger: 'blur' }],
-        },
-        tableData: []
+//          account: [{ required: true, message: '请填写用户名', trigger: 'blur' },{validator: this.checkUsername, trigger: 'blur'}],
+          account: [{ required: true, message: '请填写用户名', trigger: 'blur' }],
+          companyName: [{ required: true, message: '请填写用户名', trigger: 'blur' }],
+          phone: [{ required: true, message: '请填写密码', trigger: 'blur' }],
+        }
       }
     },
     created () {
       if (this.$route.query.id) {
         this.$axios({
-          type: 'post',
-          url: '/Auth/admininfobyId',
-          data: {id: this.$route.query.id},
+          type: 'get',
+          url: '/admin/shop/' + this.$route.query.id,
+          data: {},
           fuc: (res) => {
-            this.form.gid = res.data.admin_info.id
-            this.form.uid = res.data.admin_info.uid
-            this.form.username = res.data.admin_info.username
+            this.form.account = res.account
+            this.form.companyName = res.companyName
+            this.form.phone = res.phone
             this.form.id = this.$route.query.id
           }
         })
@@ -70,14 +71,15 @@
       onSubmit () {
         this.$refs['form'].validate((valid) => {
           if (valid) {
-//            this.$axios({
-//              type: 'post',
-//              url: this.form.id ? '/Auth/updateadmininfo' : '/Auth/addadmininfo',
-//              data: this.form,
-//              fuc: (res) => {
-//                this.$deleteOneTag('/jurisdiction/adminList')
-//              }
-//            })
+            this.$axios({
+              type: this.form.id ? 'put' : "post",
+              url: '/admin/shop' + (this.form.id ? "/" + this.form.id : ''),
+              data: this.form,
+              fuc: (res) => {
+                this.$message.success('操作成功')
+                this.$deleteOneTag('/cUser/cUserList')
+              }
+            })
           }
         })
       }

@@ -72,13 +72,13 @@
           label="操作"
           min-width="120" align='center'>
           <template slot-scope='scope'>
-            <el-dropdown @command="handleCommand" trigger="click">
+            <el-dropdown @command="handleCommand($event, scope.row)" trigger="click">
               <el-button type="primary">
                 操作<i class="el-icon-arrow-down el-icon--right"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="a">冻结</el-dropdown-item>
-                <el-dropdown-item command="b">激活</el-dropdown-item>
+                <el-dropdown-item command="a" v-if="scope.row.stateFlag == 1">冻结</el-dropdown-item>
+                <el-dropdown-item command="b" v-if="scope.row.stateFlag == 2">激活</el-dropdown-item>
                 <el-dropdown-item command="d">编辑</el-dropdown-item>
                 <el-dropdown-item command="c">重置密码</el-dropdown-item>
               </el-dropdown-menu>
@@ -128,8 +128,46 @@
         this.start = 1
         this.getTableData()
       },
-      handleCommand (command) {
-        console.log(command)
+      handleCommand (command, row) {
+        console.log(command, row)
+        if (command === 'a') {
+//          冻结
+          this.$axios({
+            type: 'get',
+            url: '/admin/shop/disable/' + row.id,
+            data: {},
+            fuc: (res) => {
+              this.$message.success("操作成功")
+              this.getTableData()
+            }
+          })
+        } else if (command === 'b') {
+//          激活
+          this.$axios({
+            type: 'get',
+            url: '/admin/shop/enabled/' + row.id,
+            data: {},
+            fuc: (res) => {
+              this.$message.success("操作成功")
+              this.getTableData()
+            }
+          })
+          
+        } else if (command === 'c') {
+//          重置密码
+          this.$axios({
+            type: 'get',
+            url: '/admin/shop/reset-password/' + row.id,
+            data: {},
+            fuc: (res) => {
+              this.$message.success("操作成功")
+//                this.getTableData()
+            }
+          })
+        } else if (command === 'd') {
+//          编辑
+          this.$router.push({path: '/cUser/cUserDetail', query: {id: row.id}})
+        }
       },
       getTableData () {
         this.$axios({

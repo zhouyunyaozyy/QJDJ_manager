@@ -13,7 +13,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model='formInline.stateFlag' placeholder='请选择对应状态' clearable>
+          <el-select v-model='formInline.state' placeholder='请选择对应状态' clearable>
             <el-option v-for='item in categoryList' :label='item.label' :key='item.value' :value='item.value'></el-option>
           </el-select>
         </el-form-item>
@@ -103,7 +103,7 @@
         formInline: {
           clientName: '',
           dispatch: '0',
-          stateFlag: '-1'
+          state: '-1'
         },
         form: {},
 //        -1-全部 1-未接单，2-未预约，3-已预约，4-已开工，5-已完工，6-未审核，7-已审核，8-已失效，9-已撤回
@@ -176,7 +176,7 @@
       getTableData () {
         this.$axios({
           type: 'post',
-          url: '/admin-order/list/' + this.formInline.dispatch + '/' + this.formInline.stateFlag,
+          url: '/admin-order/list',
           data: {current: this.start, size: 20, ...this.form},
           fuc: (res) => {
             this.tableData = res.records
