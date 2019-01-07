@@ -35,33 +35,31 @@ Object.keys(filters).forEach(key => {
 
 Vue.config.productionTip = false
 
-Vue.prototype.$qiyang = function () {
+Vue.prototype.$qiyang = function() {
   axios.get('http://192.168.10.116/dsb/public/area.js', { params: {}, withCredentials: false, headers: { 'Content-Type': 'application/json', 'Accept': '*/*' }})
-  .then(function(response) {
-//        Cookies.set('token', response.data.token)
-//        Cookies.set('token', 'will')
-        console.log(1, response)
-      })
+    .then(function(response) {
+      //        Cookies.set('token', response.data.token)
+      //        Cookies.set('token', 'will')
+      console.log(1, response)
+    })
 }
 
 // 格式化人民币
-Vue.prototype.$formatMoney = function (s) {
-  if (/[^0-9\.]/.test(s)) return "invalid value";
-  s = s.replace(/^(\d*)$/, "$1.");
-  s = (s + "00").replace(/(\d*\.\d\d)\d*/, "$1");
-  s = s.replace(".", ",");
-  var re = /(\d)(\d{3},)/;
-  while (re.test(s))
-      s = s.replace(re, "$1,$2");
-  s = s.replace(/,(\d\d)$/, ".$1");
-  return s.replace(/^\./, "0.") + '元'
-
+Vue.prototype.$formatMoney = function(s) {
+  if (/[^0-9\.]/.test(s)) return 'invalid value'
+  s = s.replace(/^(\d*)$/, '$1.')
+  s = (s + '00').replace(/(\d*\.\d\d)\d*/, '$1')
+  s = s.replace('.', ',')
+  var re = /(\d)(\d{3},)/
+  while (re.test(s)) { s = s.replace(re, '$1,$2') }
+  s = s.replace(/,(\d\d)$/, '.$1')
+  return s.replace(/^\./, '0.') + '元'
 }
 
 // 格式化时间
-Vue.prototype.$formatTime = function (time) {
+Vue.prototype.$formatTime = function(time) {
   if (time) {
-    return (new Date(parseInt(time) * 1000).getFullYear()) + "-" + (new Date(parseInt(time) * 1000).getMonth() + 1) + "-" + (new Date(parseInt(time) * 1000).getDate()) + " " + (new Date(parseInt(time) * 1000).getHours()) + ":" + (new Date(parseInt(time) * 1000).getMinutes()) + ":" + (new Date(parseInt(time) * 1000).getSeconds())
+    return (new Date(parseInt(time) * 1000).getFullYear()) + '-' + (new Date(parseInt(time) * 1000).getMonth() + 1) + '-' + (new Date(parseInt(time) * 1000).getDate()) + ' ' + (new Date(parseInt(time) * 1000).getHours()) + ':' + (new Date(parseInt(time) * 1000).getMinutes()) + ':' + (new Date(parseInt(time) * 1000).getSeconds())
   } else {
     return '-'
   }
@@ -74,9 +72,9 @@ Vue.prototype.$deleteOneTag = function(route, query) {
       this.$store.dispatch('delVisitedViews', val).then((views) => {
         if (val.path === this.$route.path || val.name === this.$route.name) {
           if (query) {
-            this.$router.push({path: route, query: query})
+            this.$router.push({ path: route, query: query })
           } else {
-            this.$router.push({path: route})
+            this.$router.push({ path: route })
           }
         }
       })
@@ -85,9 +83,9 @@ Vue.prototype.$deleteOneTag = function(route, query) {
 }
 
 // 导出Excell
-Vue.prototype.$downloadExcell = function (obj) {
+Vue.prototype.$downloadExcell = function(obj) {
   let str = ''
-  for (let key in obj) {
+  for (const key in obj) {
     if (key != 'url') {
       if (obj[key] instanceof Array && obj[key].length > 0) {
         str += '&'
@@ -97,10 +95,9 @@ Vue.prototype.$downloadExcell = function (obj) {
         } else {
           str += obj[key][0] + ',' + obj[key][1]
         }
-
       } else if (obj[key] != '') {
         str += '&'
-        str += key + '='+ obj[key]
+        str += key + '=' + obj[key]
       }
     }
   }
@@ -112,9 +109,9 @@ Vue.prototype.$downloadExcell = function (obj) {
 Vue.prototype.$inputKeyUp = (e) => { // 输入框限制
 //	console.log(window.arguments)
 //  var event = window.event || arguments.callee.caller.arguments[0]
-  let target = window.event ? (event.srcElement || event.target) : e.target
+  const target = window.event ? (event.srcElement || event.target) : e.target
   console.log(target)
-//  let target = event.srcElement || event.target
+  //  let target = event.srcElement || event.target
   if (target.value.length === 1) {
     target.value = target.value.replace(/[^1-9]/g, '')
   } else {
@@ -126,9 +123,9 @@ Vue.prototype.$inputKeyUp = (e) => { // 输入框限制
 Vue.prototype.$inputKeyUp0100 = (e) => { // 输入框限制
 //	console.log(window.arguments)
 //  var event = window.event || arguments.callee.caller.arguments[0]
-  let target = window.event ? (event.srcElement || event.target) : e.target
+  const target = window.event ? (event.srcElement || event.target) : e.target
   console.log(target)
-//  let target = event.srcElement || event.target
+  //  let target = event.srcElement || event.target
   target.value = target.value.replace(/\D/g, '')
   if (target.value >= 100) {
     target.value = 100
@@ -139,82 +136,82 @@ Vue.prototype.$inputKeyUp0100 = (e) => { // 输入框限制
 Vue.prototype.$axios = function(params, type) {
 //  console.log(1, params, type)
   const baseUrl = process.env.BASE_API
-//  if (type == 1) {
-////    params.data.append('source', 'admin')
-//    params.data.append('token', Cookies.get('token') ? Cookies.get('token') : '')
-//  } else {
-////    params.data.source = 'admin'
-//    params.data.token = Cookies.get('token') ? Cookies.get('token') : ''
-//  }
+  //  if (type == 1) {
+  // //    params.data.append('source', 'admin')
+  //    params.data.append('token', Cookies.get('token') ? Cookies.get('token') : '')
+  //  } else {
+  // //    params.data.source = 'admin'
+  //    params.data.token = Cookies.get('token') ? Cookies.get('token') : ''
+  //  }
   if (this.$store.state.app.showLoadingNums < 1) {
     this.$store.state.app.showLoading = this.$loading({
       lock: true,
       text: 'Loading',
       spinner: 'el-icon-loading',
       background: 'rgba(0, 0, 0, 0.7)'
-    });
+    })
   }
   this.$store.state.app.showLoadingNums++ // 开启请求数据
 
   if (params.url == '/business/offlinecreatepayqrcode' || '/business/offlinecreatetableqrcode') {
-//    axios.defaults.timeout = 10000; //导出暂不定响应时间
+    //    axios.defaults.timeout = 10000; //导出暂不定响应时间
   } else {
-    axios.defaults.timeout = 10000; //响应时间
+    axios.defaults.timeout = 10000 // 响应时间
   }
 
-  //返回状态判断(添加响应拦截器)
-//  axios.interceptors.response.use((res) =>{
-//    //对响应数据做些事
-//    console.log('res', res)
-////    if(!res.data.success){
-////    // _.toast(res.data.msg);
-////      return Promise.reject(res);
-////    }
-//    return res;
-//  }, (error) => {
-//    console.log("网络异常", 'fail')
-////    _.toast("网络异常", 'fail');
-//    return Promise.reject(error);
-//  });
+  // 返回状态判断(添加响应拦截器)
+  //  axios.interceptors.response.use((res) =>{
+  //    //对响应数据做些事
+  //    console.log('res', res)
+  // //    if(!res.data.success){
+  // //    // _.toast(res.data.msg);
+  // //      return Promise.reject(res);
+  // //    }
+  //    return res;
+  //  }, (error) => {
+  //    console.log("网络异常", 'fail')
+  // //    _.toast("网络异常", 'fail');
+  //    return Promise.reject(error);
+  //  });
   if (params.type === 'get') {
-    axios.get(baseUrl + params.url, { params: params.data, withCredentials: false, headers: { 'Content-Type': type == 1 ? 'multipart/form-data' : 'application/json', 'Accept': '*/*' , 'Authorization': Cookies.get('token') ? 'Bearer ' + Cookies.get('token') : ''}})
+    axios.get(baseUrl + params.url, { params: params.data, withCredentials: false, headers: { 'Content-Type': type == 1 ? 'multipart/form-data' : 'application/json', 'Accept': '*/*', 'Authorization': Cookies.get('token') ? 'Bearer ' + Cookies.get('token') : '' }})
       .then((response) => {
-//        Cookies.set('token', response.data.token)
-//        Cookies.set('token', 'will')
-//        if (response.data.code == 416) {
-//          Message({
-//            showClose: true,
-//            message: response.data.info,
-//            type: 'error'
-//          })
-//          params.fuc(response.data)
-//        } else if (response.data.code == 1010) {
-//          Cookies.remove('Admin-Token')
-//          Cookies.remove('token')
-//          location.reload()
-//        } else if (response.data.code != 200) {
-//          // params.fuc(response.data)
-//          Message({
-//            showClose: true,
-//            message: response.data.info,
-//            type: 'error'
-//          })
-          //          params.nowThis.$Modal.warning({
-          //            content: response.data.msg,
-          //            title: '警告',
-          //            onOk: () => {
-          //              params.nowThis.$store.commit('logout', this);
-          //              params.nowThis.$store.commit('clearOpenedSubmenu');
-          //              params.nowThis.$router.push({
-          //                  name: 'login'
-          //              })
-          //            }
-          //          })
-//        } else {
-          params.fuc(response.data)
-//        }
+        //        Cookies.set('token', response.data.token)
+        //        Cookies.set('token', 'will')
+        //        if (response.data.code == 416) {
+        //          Message({
+        //            showClose: true,
+        //            message: response.data.info,
+        //            type: 'error'
+        //          })
+        //          params.fuc(response.data)
+        //        } else if (response.data.code == 1010) {
+        //          Cookies.remove('Admin-Token')
+        //          Cookies.remove('token')
+        //          location.reload()
+        //        } else if (response.data.code != 200) {
+        //          // params.fuc(response.data)
+        //          Message({
+        //            showClose: true,
+        //            message: response.data.info,
+        //            type: 'error'
+        //          })
+        //          params.nowThis.$Modal.warning({
+        //            content: response.data.msg,
+        //            title: '警告',
+        //            onOk: () => {
+        //              params.nowThis.$store.commit('logout', this);
+        //              params.nowThis.$store.commit('clearOpenedSubmenu');
+        //              params.nowThis.$router.push({
+        //                  name: 'login'
+        //              })
+        //            }
+        //          })
+        //        } else {
+        params.fuc(response.data)
+        //        }
 
-//        结束loading
+        //        结束loading
         this.$store.state.app.showLoadingNums-- // 开启请求数据
         if (this.$store.state.app.showLoadingNums < 1) {
           this.$store.state.app.showLoading.close()
@@ -226,12 +223,12 @@ Vue.prototype.$axios = function(params, type) {
         if (error.response && error.response.status) {
           mes = error.response.data
         }
-//        结束loading
+        //        结束loading
         this.$store.state.app.showLoadingNums-- // 开启请求数据
         if (this.$store.state.app.showLoadingNums < 1) {
           this.$store.state.app.showLoading.close()
         }
-//        params.fuc(error)
+        //        params.fuc(error)
         Message({
           showClose: true,
           message: mes,
@@ -239,44 +236,44 @@ Vue.prototype.$axios = function(params, type) {
         })
       })
   } else if (params.type === 'delete') {
-    axios.delete(baseUrl + params.url, { params: params.data, withCredentials: false, headers: { 'Content-Type': type == 1 ? 'multipart/form-data' : 'application/json', 'Accept': '*/*', 'Authorization':  Cookies.get('token') ? 'Bearer ' + Cookies.get('token') : '' }})
+    axios.delete(baseUrl + params.url, { params: params.data, withCredentials: false, headers: { 'Content-Type': type == 1 ? 'multipart/form-data' : 'application/json', 'Accept': '*/*', 'Authorization': Cookies.get('token') ? 'Bearer ' + Cookies.get('token') : '' }})
       .then((response) => {
-//        Cookies.set('token', response.data.token)
-//        Cookies.set('token', 'will')
-//        if (response.data.code == 416) {
-//          Message({
-//            showClose: true,
-//            message: response.data.msg,
-//            type: 'error'
-//          })
-//          params.fuc(response.data)
-//        } else if (response.data.code == 1010) {
-//          Cookies.remove('Admin-Token')
-//          Cookies.remove('token')
-//          location.reload()
-//        } else if (response.data.code != 1) {
-//          // params.fuc(response.data)
-//          Message({
-//            showClose: true,
-//            message: response.data.msg,
-//            type: 'error'
-//          })
-          //          params.nowThis.$Modal.warning({
-          //            content: response.data.msg,
-          //            title: '警告',
-          //            onOk: () => {
-          //              params.nowThis.$store.commit('logout', this);
-          //              params.nowThis.$store.commit('clearOpenedSubmenu');
-          //              params.nowThis.$router.push({
-          //                  name: 'login'
-          //              })
-          //            }
-          //          })
-//        } else {
-          params.fuc(response.data)
-//        }
+        //        Cookies.set('token', response.data.token)
+        //        Cookies.set('token', 'will')
+        //        if (response.data.code == 416) {
+        //          Message({
+        //            showClose: true,
+        //            message: response.data.msg,
+        //            type: 'error'
+        //          })
+        //          params.fuc(response.data)
+        //        } else if (response.data.code == 1010) {
+        //          Cookies.remove('Admin-Token')
+        //          Cookies.remove('token')
+        //          location.reload()
+        //        } else if (response.data.code != 1) {
+        //          // params.fuc(response.data)
+        //          Message({
+        //            showClose: true,
+        //            message: response.data.msg,
+        //            type: 'error'
+        //          })
+        //          params.nowThis.$Modal.warning({
+        //            content: response.data.msg,
+        //            title: '警告',
+        //            onOk: () => {
+        //              params.nowThis.$store.commit('logout', this);
+        //              params.nowThis.$store.commit('clearOpenedSubmenu');
+        //              params.nowThis.$router.push({
+        //                  name: 'login'
+        //              })
+        //            }
+        //          })
+        //        } else {
+        params.fuc(response.data)
+        //        }
 
-//        结束loading
+        //        结束loading
         this.$store.state.app.showLoadingNums-- // 开启请求数据
         if (this.$store.state.app.showLoadingNums < 1) {
           this.$store.state.app.showLoading.close()
@@ -287,12 +284,12 @@ Vue.prototype.$axios = function(params, type) {
         if (error.response && error.response.status) {
           mes = error.response.data
         }
-//        结束loading
+        //        结束loading
         this.$store.state.app.showLoadingNums-- // 开启请求数据
         if (this.$store.state.app.showLoadingNums < 1) {
           this.$store.state.app.showLoading.close()
         }
-//        params.fuc(error)
+        //        params.fuc(error)
         Message({
           showClose: true,
           message: mes,
@@ -305,33 +302,33 @@ Vue.prototype.$axios = function(params, type) {
       type == 1 ? params.data : JSON.stringify(params.data),
       {
         withCredentials: false,
-        headers: { 'Content-Type': type == 1 ? 'multipart/form-data' : 'application/json' , 'Authorization':  Cookies.get('token') ? 'Bearer ' + Cookies.get('token') : ''}
+        headers: { 'Content-Type': type == 1 ? 'multipart/form-data' : 'application/json', 'Authorization': Cookies.get('token') ? 'Bearer ' + Cookies.get('token') : '' }
       })
       .then((response) => {
-//        Cookies.set('token', response.data.token)
-//                Cookies.set('token', 'will')
-//        if (response.data.code == 416) {
-//          Message({
-//            showClose: true,
-//            message: response.data.info,
-//            type: 'error'
-//          })
-//          params.fuc(response.data)
-//        } else if (response.data.code == 1010) {
-//          Cookies.remove('Admin-Token')
-//          Cookies.remove('token')
-//          location.reload()
-//        } else if (response.data.code != 200) {
-//          Message({
-//            showClose: true,
-//            message: response.data.info,
-//            type: 'error'
-//          })
-//        } else {
-          params.fuc(response.data)
-//        }
+        //        Cookies.set('token', response.data.token)
+        //                Cookies.set('token', 'will')
+        //        if (response.data.code == 416) {
+        //          Message({
+        //            showClose: true,
+        //            message: response.data.info,
+        //            type: 'error'
+        //          })
+        //          params.fuc(response.data)
+        //        } else if (response.data.code == 1010) {
+        //          Cookies.remove('Admin-Token')
+        //          Cookies.remove('token')
+        //          location.reload()
+        //        } else if (response.data.code != 200) {
+        //          Message({
+        //            showClose: true,
+        //            message: response.data.info,
+        //            type: 'error'
+        //          })
+        //        } else {
+        params.fuc(response.data)
+        //        }
 
-//        结束loading
+        //        结束loading
         this.$store.state.app.showLoadingNums-- // 开启请求数据
         if (this.$store.state.app.showLoadingNums < 1) {
           this.$store.state.app.showLoading.close()
@@ -342,12 +339,12 @@ Vue.prototype.$axios = function(params, type) {
         if (error.response && error.response.status) {
           mes = error.response.data
         }
-//        结束loading
+        //        结束loading
         this.$store.state.app.showLoadingNums-- // 开启请求数据
         if (this.$store.state.app.showLoadingNums < 1) {
           this.$store.state.app.showLoading.close()
         }
-//        params.fuc(error)
+        //        params.fuc(error)
         Message({
           showClose: true,
           message: mes,
@@ -360,33 +357,33 @@ Vue.prototype.$axios = function(params, type) {
       type == 1 ? params.data : JSON.stringify(params.data),
       {
         withCredentials: false,
-        headers: { 'Content-Type': type == 1 ? 'multipart/form-data' : 'application/json' , 'Authorization':  Cookies.get('token') ? 'Bearer ' + Cookies.get('token') : ''}
+        headers: { 'Content-Type': type == 1 ? 'multipart/form-data' : 'application/json', 'Authorization': Cookies.get('token') ? 'Bearer ' + Cookies.get('token') : '' }
       })
       .then((response) => {
-//        Cookies.set('token', response.data.token)
-//                Cookies.set('token', 'will')
-//        if (response.data.code == 416) {
-//          Message({
-//            showClose: true,
-//            message: response.data.info,
-//            type: 'error'
-//          })
-//          params.fuc(response.data)
-//        } else if (response.data.code == 1010) {
-//          Cookies.remove('Admin-Token')
-//          Cookies.remove('token')
-//          location.reload()
-//        } else if (response.data.code != 200) {
-//          Message({
-//            showClose: true,
-//            message: response.data.info,
-//            type: 'error'
-//          })
-//        } else {
-          params.fuc(response.data)
-//        }
+        //        Cookies.set('token', response.data.token)
+        //                Cookies.set('token', 'will')
+        //        if (response.data.code == 416) {
+        //          Message({
+        //            showClose: true,
+        //            message: response.data.info,
+        //            type: 'error'
+        //          })
+        //          params.fuc(response.data)
+        //        } else if (response.data.code == 1010) {
+        //          Cookies.remove('Admin-Token')
+        //          Cookies.remove('token')
+        //          location.reload()
+        //        } else if (response.data.code != 200) {
+        //          Message({
+        //            showClose: true,
+        //            message: response.data.info,
+        //            type: 'error'
+        //          })
+        //        } else {
+        params.fuc(response.data)
+        //        }
 
-//        结束loading
+        //        结束loading
         this.$store.state.app.showLoadingNums-- // 开启请求数据
         if (this.$store.state.app.showLoadingNums < 1) {
           this.$store.state.app.showLoading.close()
@@ -397,12 +394,12 @@ Vue.prototype.$axios = function(params, type) {
         if (error.response && error.response.status) {
           mes = error.response.data
         }
-//        结束loading
+        //        结束loading
         this.$store.state.app.showLoadingNums-- // 开启请求数据
         if (this.$store.state.app.showLoadingNums < 1) {
           this.$store.state.app.showLoading.close()
         }
-//        params.fuc(error)
+        //        params.fuc(error)
         Message({
           showClose: true,
           message: mes,

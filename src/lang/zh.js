@@ -3,7 +3,10 @@ export default {
     cUser: '商家管理',
     cUserList: '商家列表',
     cUserDetail: '商家详情',
-    
+    user: '用户管理',
+    userList: '用户列表',
+    userDetail: '用户详情',
+
     updateOrderList: '上传订单',
     orderHistoryList: '草稿箱',
     orderAllList: '订单中心',
