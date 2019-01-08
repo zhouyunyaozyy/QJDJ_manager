@@ -134,6 +134,22 @@ export const asyncRouterMap = [
       { path: 'userDetail', component: _import('user/userDetail'), name: 'userDetail', meta: { title: 'userDetail', noCache: true }, hidden: true},
     ]
   },
+  // 商品管理
+  {
+    path: '/goodsBrands',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'goodsBrands',
+    meta: {
+      title: 'goodsBrands',
+      icon: 'lock'
+    },
+    children: [
+
+      { path: 'goodsBrandsList', component: _import('goods/goodsBrands/goodsBrandsList'), name: 'goodsBrandsList', meta: { title: 'goodsBrandsList', noCache: true }},
+      { path: 'goodsBrandsDetail', component: _import('goods/goodsBrands/goodsBrandsDetail'), name: 'goodsBrandsDetail', meta: { title: 'goodsBrandsDetail', noCache: true }, hidden: true},
+    ]
+  },
 
   // 用户管理
 //  {

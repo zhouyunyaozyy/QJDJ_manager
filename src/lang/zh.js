@@ -6,6 +6,9 @@ export default {
     user: '用户管理',
     userList: '用户列表',
     userDetail: '用户详情',
+    goodsBrands: '商品',
+    goodsBrandsList: '商品列表',
+    goodsBrandsDetail: '商品详情',
 
     updateOrderList: '上传订单',
     orderHistoryList: '草稿箱',
