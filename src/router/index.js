@@ -179,7 +179,9 @@ export const asyncRouterMap = [
     },
     children: [
 
-      { path: 'orderAllList', component: _import('orderAll/orderAllList'), name: 'orderAllList', meta: { title: 'orderAllList', noCache: true }}
+      { path: 'orderAllList', component: _import('orderAll/orderAllList'), name: 'orderAllList', meta: { title: 'orderAllList', noCache: true }},
+
+      { path: 'orderAllDetail', component: _import('orderAll/orderAllDetail'), name: 'orderAllDetail', meta: { title: 'orderAllDetail', noCache: true }, hidden: true}
     ]
   },
 

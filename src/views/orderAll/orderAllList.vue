@@ -27,12 +27,12 @@
     :data="tableData"
     style="width: 100%" border>
       <el-table-column
-        prop="updateTime"
+        prop="orderNumber"
         label="订单编号"
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
-        prop="updateTime"
+        prop="companyName"
         label="网店名"
         min-width="120" align='center'>
       </el-table-column>
@@ -57,13 +57,8 @@
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
-        prop="productSize"
+        prop="totalPrice"
         label="佣金"
-        min-width="120" align='center'>
-      </el-table-column>
-      <el-table-column
-        prop="productSize"
-        label="派单记录"
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
@@ -72,17 +67,19 @@
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
-        prop="stateVal"
+        prop="stateFlagVal"
         label="订单状态"
         min-width="120" align='center'>
       </el-table-column>
       <el-table-column
         prop="stateVal"
         label="操作"
-        min-width="120" align='center'>
-        <el-button>派单</el-button>
-        <el-button>关闭</el-button>
-        <el-button>查看</el-button>
+        min-width="300" align='center'>
+        <template slot-scope="scope">
+          <el-button>派单</el-button>
+          <el-button>关闭</el-button>
+          <el-button @click='goDetail(scope.row)'>查看</el-button>
+        </template>
       </el-table-column>
     </el-table>
     <el-pagination
@@ -102,7 +99,7 @@
         tableData: [],
         formInline: {
           clientName: '',
-          dispatch: '0',
+          dispatch: '-1',
           state: '-1'
         },
         form: {},
@@ -140,7 +137,7 @@
         }],
 //        -1-全部 1-未接单，2-未预约，3-已预约，4-已开工，5-已完工，6-未审核，7-已审核，8-已失效，9-已撤回
         categoryDispatchList: [{
-          value: '0',
+          value: '-1',
           label: "全部"
         },{
           value: '1',
@@ -155,10 +152,13 @@
       }
     },
     created () {
-      this.getTableData()
+      this.onsubmit()
     },
     mounted () {},
     methods: {
+      goDetail (row) {
+        this.$router.push({path: '/orderAll/orderAllDetail', query: {id: row.id}})
+      },
       onsubmit () {
         this.form = {}
         for (let val in this.formInline) {

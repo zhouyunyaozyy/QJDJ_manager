@@ -13,6 +13,7 @@ export default {
     updateOrderList: '上传订单',
     orderHistoryList: '草稿箱',
     orderAllList: '订单中心',
+    orderAllDetail: '订单详情',
     onlineBusinessDetail: '基本信息',
     searchArea: '安装区域查询',
 
