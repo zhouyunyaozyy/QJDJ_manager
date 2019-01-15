@@ -9,6 +9,9 @@ export default {
     goodsBrands: '商品',
     goodsBrandsList: '商品列表',
     goodsBrandsDetail: '商品详情',
+    bUser: '小程序用户',
+    bUserList: '小程序用户',
+    bUserManage: '小程序用户审核',
 
     updateOrderList: '上传订单',
     orderHistoryList: '草稿箱',

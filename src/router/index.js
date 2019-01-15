@@ -185,6 +185,24 @@ export const asyncRouterMap = [
     ]
   },
 
+  // 小程序用户管理
+  {
+    path: '/bUser',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'bUser',
+    meta: {
+      title: 'bUser',
+      icon: 'lock'
+    },
+    children: [
+
+      { path: 'bUserList', component: _import('bUser/bUserList'), name: 'bUserList', meta: { title: 'bUserList', noCache: true }},
+
+      { path: 'bUserManage', component: _import('bUser/bUserManage'), name: 'bUserManage', meta: { title: 'bUserManage', noCache: true }}
+    ]
+  },
+
   // 商家信息
 //  {
 //    path: '/businessDetail',
