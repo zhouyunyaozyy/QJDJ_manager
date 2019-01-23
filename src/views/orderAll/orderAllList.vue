@@ -1,6 +1,6 @@
 <template>
   <div class="indexSlideshowList">
-    
+
     <div class="searchForm">
       <p @click='showFormBool = !showFormBool'>筛选查询<i v-if='showFormBool' class="el-icon-arrow-down"></i><i v-else class="el-icon-arrow-up"></i></p>
       <el-form :inline="true" :model="formInline" class="demo-form-inline" v-if='showFormBool'>
@@ -22,7 +22,7 @@
         </el-form-item>
       </el-form>
     </div>
-    
+
     <el-table
     :data="tableData"
     style="width: 100%" border>
@@ -76,7 +76,7 @@
         label="操作"
         min-width="300" align='center'>
         <template slot-scope="scope">
-          <el-button>派单</el-button>
+          <el-button @click="paidan(scope.row)" v-if="scope.row.dispatchFlag != 2">派单</el-button>
           <el-button>关闭</el-button>
           <el-button @click='goDetail(scope.row)'>查看</el-button>
         </template>
@@ -87,6 +87,26 @@
     :total="total" :page-size="20" @current-change="handleCurrentChange"
       :current-page.sync="start">
   </el-pagination>
+  <el-dialog title="师傅列表" :visible.sync="dialogTableVisible">
+    <el-table :data="gridData"
+              highlight-current-row
+              @current-change="handleTableChange" @close="tableClose">
+      <el-table-column property="id" label="id" width="150"></el-table-column>
+      <el-table-column property="realName" label="姓名" width="200"></el-table-column>
+      <el-table-column property="phone" label="电话" width="200"></el-table-column>
+    </el-table>
+    <el-switch
+      style="display: block"
+      v-model="value4"
+      active-color="#13ce66"
+      inactive-color="#ff4949"
+      active-text="需要佣金"
+      inactive-text="不需要佣金">
+    </el-switch>
+    <span slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="paidanSure">确 定</el-button>
+    </span>
+  </el-dialog>
   </div>
 </template>
 
@@ -95,6 +115,12 @@
     name: 'unlineBusinessList',
     data () {
       return {
+        dialogTableVisible: false,
+        gridData: [],
+        currentRow: null,
+        id: null,
+        value4: true,
+
         form: {},
         tableData: [],
         formInline: {
@@ -156,6 +182,40 @@
     },
     mounted () {},
     methods: {
+      handleTableChange (row) {
+        this.currentRow = row
+      },
+      paidanSure () {
+        if (this.currentRow) {
+          this.$axios({
+            type: 'put',
+            url: '/admin-order/dispatch/' + this.id + '/' + this.currentRow.id + '/' + (this.value4 ? 1 : 0),
+            data: {},
+            fuc: (res) => {
+              this.$message.success('派单成功')
+              this.dialogTableVisible = false
+            }
+          })
+        }
+
+      },
+      tableClose () {
+        this.currentRow = null
+        this.id = null
+        this.value4 = true
+      },
+      paidan (row) {
+        this.$axios({
+          type: 'get',
+          url: '/admin-order/users/' + row.areaCode + '/' + row.productId,
+          data: {},
+          fuc: (res) => {
+            this.gridData = res
+            this.id = row.id
+            this.dialogTableVisible = true
+          }
+        })
+      },
       goDetail (row) {
         this.$router.push({path: '/orderAll/orderAllDetail', query: {id: row.id}})
       },
@@ -170,7 +230,7 @@
         this.getTableData()
       },
       handleCurrentChange (val) {
-        this.start = val 
+        this.start = val
         this.getTableData()
       },
       getTableData () {
