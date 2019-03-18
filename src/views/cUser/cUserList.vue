@@ -10,7 +10,7 @@
         </el-form-item>
         <el-form-item label="注册时间">
           <el-date-picker
-            v-model="formInline.key_time"
+            v-model="formInline.regDate"
             type="daterange"
             range-separator="至"
             format="yyyy 年 MM 月 dd 日"
@@ -104,7 +104,7 @@
         tableData: [],
         formInline: {
           name: '',
-          key_time: []
+          regDate: []
         },
         form: {},
         start: 1,
@@ -121,7 +121,11 @@
         this.form = {}
         for (let val in this.formInline) {
           if (this.formInline[val] !== '') {
-            this.form[val] = this.formInline[val]
+            if (val === "regDate") {
+              this.form[val] = this.formInline[val].join(',')
+            } else {
+              this.form[val] = this.formInline[val]
+            }
           }
         }
         console.log(this.form)

@@ -4,8 +4,11 @@
       <el-form-item label="商品名称" prop='name'>
         <el-input v-model="form.name" placeholder='请填写商品名称'></el-input>
       </el-form-item>
-      <el-form-item label="价格区间" prop='priceRange'>
-        <el-input v-model="form.priceRange" placeholder='例：15-25'></el-input>
+      <el-form-item label="最低价" prop='minCost'>
+        <el-input v-model="form.minCost" placeholder='例：15'></el-input>
+      </el-form-item>
+      <el-form-item label="最高价" prop='maxCost'>
+        <el-input v-model="form.maxCost" placeholder='例：25'></el-input>
       </el-form-item>
       <el-form-item label="价格单位" prop='unit'>
         <el-input v-model="form.unit" placeholder='例：元/每平方'></el-input>
@@ -22,24 +25,26 @@
       return {
         form: {
           name: '',
-          priceRange: '',
+          minCost: '',
+          maxCost: '',
           unit: '元/每平方'
         },
         rules: {
           name: [{ required: true, message: '请填写商品名称', trigger: 'blur' }],
-          priceRange: [{ required: true, message: '请填写价格区间', trigger: 'blur' }],
+          maxCost: [{ required: true, message: '请填写价格', trigger: 'blur' }],
+          minCost: [{ required: true, message: '请填写价格', trigger: 'blur' }],
           unit: [{ required: true, message: '请填写价格单位', trigger: 'blur' }]
         }
       }
     },
     created() {
-      if (this.$route.query.bid) {
+      if (this.$route.query.id) {
         this.$axios({
-          type: 'post',
-          url: '/goods/brand/editinfo',
-          data: { bid: this.$route.query.bid },
+          type: 'get',
+          url: '/admin-product/' + this.$route.query.id,
+          data: {},
           fuc: (res) => {
-            this.form = res.data
+            this.form = res
           }
         })
       }

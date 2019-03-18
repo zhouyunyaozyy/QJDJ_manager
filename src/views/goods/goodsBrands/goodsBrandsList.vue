@@ -82,7 +82,7 @@
         this.getTableData()
       },
       editBrand(row) {
-        this.$router.push({ path: '/goodsBrands/goodsBrandsDetail', query: { bid: row.bid }})
+        this.$router.push({ path: '/goodsBrands/goodsBrandsDetail', query: { id: row.id }})
       },
       removeBrand(row) {
         this.$axios({

@@ -25,7 +25,7 @@
 
     <el-table
     :data="tableData"
-    style="width: 100%" border>
+    style="width: 100%" border @current-change="handleTableChangeBig">
       <el-table-column
         prop="orderNumber"
         label="订单编号"
@@ -77,7 +77,14 @@
         min-width="300" align='center'>
         <template slot-scope="scope">
           <el-button @click="paidan(scope.row)" v-if="scope.row.dispatchFlag != 2">派单</el-button>
-          <el-button>关闭</el-button>
+          <el-dropdown @command="changeStatus">
+            <el-button type="">
+              更改状态<i class="el-icon-arrow-down el-icon--right"></i>
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item v-for="item in categoryListStatus" :command="item.value" :key="item.value">{{item.label}}</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <el-button @click='goDetail(scope.row)'>查看</el-button>
         </template>
       </el-table-column>
@@ -117,6 +124,7 @@
       return {
         dialogTableVisible: false,
         gridData: [],
+        currentRowBig: null,
         currentRow: null,
         id: null,
         value4: true,
@@ -134,6 +142,34 @@
           value: '-1',
           label: "全部"
         },{
+          value: 1,
+          label: "未接单"
+        },{
+          value: 2,
+          label: "未预约"
+        },{
+          value: 3,
+          label: "已预约"
+        },{
+          value: 4,
+          label: "已开工"
+        },{
+          value: 5,
+          label: "已完工"
+        },{
+          value: 6,
+          label: "未审核退单"
+        },{
+          value: 7,
+          label: "已审核退单"
+        },{
+          value: 8,
+          label: "已失效"
+        },{
+          value: 9,
+          label: "已撤回订单"
+        }],
+        categoryListStatus: [{
           value: 1,
           label: "未接单"
         },{
@@ -185,6 +221,10 @@
       handleTableChange (row) {
         this.currentRow = row
       },
+      handleTableChangeBig (row) {
+        
+        this.currentRowBig = row
+      },
       paidanSure () {
         if (this.currentRow) {
           this.$axios({
@@ -194,6 +234,7 @@
             fuc: (res) => {
               this.$message.success('派单成功')
               this.dialogTableVisible = false
+              this.getTableData()
             }
           })
         }
@@ -218,6 +259,18 @@
       },
       goDetail (row) {
         this.$router.push({path: '/orderAll/orderAllDetail', query: {id: row.id}})
+      },
+      changeStatus (status) {
+//        console.log(status)
+        this.$axios({
+          type: 'put',
+          url: '/admin-order/' + this.currentRowBig.id + '/' + status,
+          data: {},
+          fuc: (res) => {
+            this.$message.success('操作成功')
+            this.getTableData()
+          }
+        })
       },
       onsubmit () {
         this.form = {}
